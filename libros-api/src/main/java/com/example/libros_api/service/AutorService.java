@@ -3,9 +3,11 @@ package com.example.libros_api.service;
 import com.example.libros_api.model.Autor;
 import com.example.libros_api.repository.AutorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class AutorService {
 
     @Autowired
