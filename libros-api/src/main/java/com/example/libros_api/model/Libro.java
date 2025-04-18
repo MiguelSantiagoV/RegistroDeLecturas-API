@@ -1,5 +1,6 @@
 package com.example.libros_api.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -23,6 +24,7 @@ public class Libro {
     private Autor autor;
 
     @OneToMany(mappedBy = "libro")
+    @JsonIgnore
     private List<Lectura> lecturas;
 
 }

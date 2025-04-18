@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AutorService {
@@ -17,8 +18,8 @@ public class AutorService {
         return autorRepository.findAll();
     }
 
-    public Autor getAutorById(int id){
-        return autorRepository.findById(id).orElse(null);
+    public Optional<Autor> getAutorById(int id){
+        return autorRepository.findById(id);
     }
 
     public Autor saveAutor(Autor autor){
