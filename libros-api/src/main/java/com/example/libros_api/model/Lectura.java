@@ -1,12 +1,16 @@
 package com.example.libros_api.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 
 @Entity
-@Data
+@Table(name="lecturas")
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Lectura {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

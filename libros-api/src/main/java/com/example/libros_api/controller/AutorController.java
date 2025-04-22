@@ -53,6 +53,12 @@ public class AutorController {
 
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAutor(@PathVariable int id){
+        autorService.deleteAutor(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
 
 
 }

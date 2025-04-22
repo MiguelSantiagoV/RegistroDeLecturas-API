@@ -40,16 +40,26 @@ public class LibroController {
 
     @PostMapping
     public ResponseEntity<Libro> saveLibro(@RequestBody Libro libro){
+        if(libro.getAutor() != null && libro.getAutor().getAutorId() >0){
+            Optional<Autor> autorOptional = autorService.getAutorById(libro.getAutor().getAutorId());
+            if(autorOptional.isPresent()){
+                libro.setAutor(autorOptional.get());
+            }else{
+                throw new ResourceNotFoundException("No se encuentra el autor con el id: "+libro.getAutor().getAutorId());
+            }
+        }
         Libro savedLibro = libroService.saveLibro(libro);
         return new ResponseEntity<>(savedLibro, HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Libro> updateLibro(@PathVariable Integer id, @RequestBody LibroUpdateDTO dto){
+        System.out.println("LOG 1. dto: "+dto);
         Optional<Libro> libroOptional = libroService.getLibroById(id);
         if(libroOptional.isEmpty()){
             throw new ResourceNotFoundException("El id recibido no existe: "+id);
         }
+        System.out.println("LOG 2. dto: "+dto);
         Libro libro = libroOptional.get();
         libro.setNombre(dto.getNombre());
         libro.setEpoca(dto.getEpoca());
@@ -58,12 +68,15 @@ public class LibroController {
         libro.setGenero(dto.getGenero());
         libro.setSubgenero(dto.getSubgenero());
         libro.setIdiomaOriginal(dto.getIdiomaOriginal());
+        System.out.println("LOG 3. dto: "+dto+" libro: "+libro);
 
-        Optional<Autor> autor = autorService.getAutorById(dto.getAutorId());
-        if(autor.isEmpty()){
+
+        if(dto.getAutorId() > 0){
+            Optional<Autor> autor = autorService.getAutorById(dto.getAutorId());
+            libro.setAutor(autor.get());
+        }else{
             throw new ResourceNotFoundException("El id del autor recibido no existe :"+dto.getAutorId());
         }
-        libro.setAutor(autor.get());
         libroService.saveLibro(libro);
         return ResponseEntity.ok(libro);
 
